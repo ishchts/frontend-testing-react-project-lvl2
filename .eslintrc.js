@@ -7,12 +7,14 @@ module.exports = {
   plugins: ['jest'],
   extends: [
     'airbnb-base',
-    'eslint:recommended',
+    'plugin:jest/recommended',
   ],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
   rules: {
+    'import/prefer-default-export': 'off',
+    'import/no-extraneous-dependencies': 'off',
   },
 };

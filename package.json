@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "PORT=3000 npx @hexlet/react-todo-app-with-backend",
-    "test": "npx jest"
+    "test": "npx jest",
+    "lint": "npx eslint ."
   },
   "repository": {
     "type": "git",
@@ -18,13 +19,23 @@
   },
   "homepage": "https://github.com/ishchts/frontend-testing-react-project-lvl2#readme",
   "devDependencies": {
-    "eslint": "^8.16.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0",
+    "@babel/core": "7.18.2",
+    "@babel/preset-env": "7.18.2",
+    "@babel/preset-react": "7.17.12",
+    "@testing-library/jest-dom": "5.16.4",
+    "@testing-library/react": "^12.1.5",
+    "@testing-library/user-event": "14.2.0",
+    "babel-jest": "28.1.0",
+    "eslint": "8.16.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-plugin-import": "2.26.0",
     "eslint-plugin-jest": "26.4.6",
-    "jest": "^28.1.0"
+    "jest": "27.5.1",
+    "jest-preview": "0.2.3"
   },
   "dependencies": {
-    "@hexlet/react-todo-app-with-backend": "0.10.0"
+    "@hexlet/react-todo-app-with-backend": "0.10.0",
+    "lodash": "4.17.21",
+    "msw": "0.42.0"
   }
 }
