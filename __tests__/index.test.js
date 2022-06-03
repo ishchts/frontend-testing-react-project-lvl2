@@ -28,7 +28,7 @@ describe('todo app', () => {
     expect(screen.getByRole('textbox', { name: /new task/i })).toBeVisible();
   });
 
-  test('actions with the task list', async () => {
+  test('task list', async () => {
     const addTaskButton = screen.getByRole('button', { name: 'Add' });
     const taskName = 'github';
     await userEvent.click(addTaskButton);
@@ -44,12 +44,58 @@ describe('todo app', () => {
 
     const checkbox = screen.getByRole('checkbox', { name: taskName });
     userEvent.click(checkbox);
+
     await waitFor(() => {
       expect(checkbox).toBeChecked();
     });
 
-    await userEvent.click(screen.getByRole('button', { name: 'Remove' }));
+    userEvent.click(screen.getByRole('button', { name: /secondary/i }));
 
-    expect(screen.getByText(/tasks list is empty/i)).toBeVisible();
+    await waitFor(() => {
+      expect(screen.getByText(/tasks list is empty/i)).toBeVisible();
+    });
+
+    await userEvent.click(screen.getByRole('button', { name: /primary/i }));
+
+    userEvent.click(screen.getByRole('button', { name: 'Remove' }));
+
+    await waitFor(() => {
+      expect(screen.getByText(/tasks list is empty/i)).toBeVisible();
+    });
+  });
+});
+
+describe('list with task lists', () => {
+  test('duplicate list', async () => {
+    await userEvent.type(screen.getByRole('textbox', { name: /new list/i }), 'primary');
+    userEvent.click(screen.getByRole('button', { name: /add list/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText(/primary already exists/i)).toBeInTheDocument();
+    });
+  });
+
+  test('recreate list', async () => {
+    userEvent.click(screen.getByRole('button', { name: /secondary/i }));
+    await userEvent.type(screen.getByRole('textbox', { name: /new task/i }), 'secondary task');
+    userEvent.click(screen.getByRole('button', { name: 'Add' }));
+
+    await waitFor(() => {
+      expect(screen.getByRole('checkbox', { name: 'secondary task' })).toBeInTheDocument();
+    });
+
+    userEvent.click(screen.getByRole('button', { name: /remove list/i }));
+
+    await waitFor(() => {
+      expect(screen.queryByText('secondary')).toBeNull();
+    });
+
+    await userEvent.type(screen.getByRole('textbox', { name: /new list/i }), 'secondary');
+    userEvent.click(screen.getByRole('button', { name: /add list/i }));
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /secondary/i })).toBeInTheDocument();
+      expect(screen.getByText(/tasks list is empty/i)).toBeInTheDocument();
+    });
   });
 });
